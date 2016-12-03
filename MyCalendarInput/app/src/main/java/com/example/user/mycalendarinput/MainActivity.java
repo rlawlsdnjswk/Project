@@ -7,6 +7,7 @@ import java.util.Date;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -14,8 +15,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -31,12 +32,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start);
+
+        do {
+            Intent intent = new Intent(getApplicationContext(), start.class);
+            startActivity(intent);
+        }
+        while(false);
+
+    }
+
+    public void onResume(){
+        super.onResume();
         setContentView(R.layout.activity_main);
+
         textYear = (TextView) this.findViewById(R.id.yearedit);
         textMon = (TextView) this.findViewById(R.id.monthedit);
-
-
-
         mItems = new ArrayList<String>();
         adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, mItems);

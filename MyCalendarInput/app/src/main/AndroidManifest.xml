@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Detail" />
-        <activity android:name=".ExToday"></activity>
+        <activity android:name=".ExToday" />
+        <activity android:name=".start"></activity>
     </application>
 
 </manifest>
