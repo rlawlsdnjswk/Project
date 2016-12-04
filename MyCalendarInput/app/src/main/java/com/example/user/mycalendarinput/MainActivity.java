@@ -8,9 +8,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -31,12 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int year;
     int mon;
 
-
-
-
-
-
-        /** Called when the activity is first created. */
+    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,43 +41,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         while(false);
 
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //액션바를 강제로 캘린더로 네이밍함, 아마 월,주별 보기 프레이먼트에서도 각각 지정해줘야할 듯
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
-        ab.setTitle("캘린더");
-
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    //액션바 메뉴 구현 부분
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.action_monthview:
-        //        startActivity(new Intent(this, SubActivity.class));
-                return true;
-            case R.id.action_weekview:
-        //        startActivity(new Intent(this, NavDrawerActivity.class));
-                 return true;
-
-            case R.id.action_dayview:
-                //        startActivity(new Intent(this, NavDrawerActivity.class));
-                return true;
-            case R.id.action_add:
-                //        startActivity(new Intent(this, NavDrawerActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
 
     public void onResume(){
         super.onResume();
