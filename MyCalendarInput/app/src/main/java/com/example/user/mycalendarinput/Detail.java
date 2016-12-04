@@ -13,7 +13,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,6 +23,9 @@ public class Detail extends AppCompatActivity implements OnClickListener {
     int mId;
     String today;
     EditText editDate, editTitle, editTime, editMemo;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,23 +80,16 @@ public class Detail extends AppCompatActivity implements OnClickListener {
         btn3.setOnClickListener(this);
 
 
-
-
-
-
-
         if (mId == -1) {
             btn2.setVisibility(View.INVISIBLE);
-
         }
     }
 
 
     public void onClick(View v) {
         // TODO Auto-generated method stub
-        SQLiteDatabase db = mDBHelper.getWritableDatabase();
-        switch (v.getId()) {
-            case R.id.btnsave:
+        final SQLiteDatabase db = mDBHelper.getWritableDatabase();
+            if (v.getId() == R.id.btnsave) {
                 if (mId != -1) {
                     db.execSQL("UPDATE today SET title='"
                             + editTitle.getText().toString() + "',date='"
@@ -111,49 +106,39 @@ public class Detail extends AppCompatActivity implements OnClickListener {
                 }
                 mDBHelper.close();
                 setResult(RESULT_OK);
-                break;
-            case R.id.btndel:
+                finish();
+            }
 
-/* 코드 손보면 될거같은데 이 코드 넣으면 아예 알림창만 뜨고 바로 꺼져버림
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle("알림!!");
+            else if(v.getId()== R.id.btndel){
+                final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("알림!");
+                alert.setMessage("정말 삭제 하시겠습니까?");
+
                 alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(Detail.this, "확인 버튼이 눌렸습니다",Toast.LENGTH_SHORT).show();
+                        if (mId != -1) {
+                            db.execSQL("DELETE FROM today WHERE _id='" + mId + "';");
+                            mDBHelper.close();
+                        }
+                        setResult(RESULT_OK);
+                        dialog.dismiss();
+                        finish();
                     }
                 });
-              //  alert.setIcon(R.drawable.ic_launcher);
+                alert.setIcon(R.mipmap.ic_launcher);
                 alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Toast.makeText(Detail.this, "취소 버튼이 눌렸습니다",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
                     }
                 });
-                alert.setMessage("정말 삭제 하시겠습니까?");
                 alert.show();
-
-                setResult(RESULT_OK);
-                break;
-
-*/
-
-        if (mId != -1) {
-                    db.execSQL("DELETE FROM today WHERE _id='" + mId + "';");
-                    mDBHelper.close();
                 }
-                setResult(RESULT_OK);
-                break;
 
-
-
-
-            case R.id.btncancel:
-
-
-       setResult(RESULT_CANCELED);
-            break;
+        else if(v.getId()==R.id.btncancel) {
+            setResult(RESULT_CANCELED);
+                finish();
         }
-        finish();
     }
 }
