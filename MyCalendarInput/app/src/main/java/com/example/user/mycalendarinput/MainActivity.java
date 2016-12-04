@@ -53,7 +53,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         while(false);
 
+        setContentView(R.layout.activity_main);
 
+        textYear = (TextView) this.findViewById(R.id.yearedit);
+        textMon = (TextView) this.findViewById(R.id.monthedit);
+        mItems = new ArrayList<String>();
+        adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, mItems);
+
+        GridView gird = (GridView) this.findViewById(R.id.grid1);
+        gird.setAdapter(adapter);
+        gird.setOnItemClickListener(this);
+
+        Date date = new Date();// 오늘에 날짜를 세팅 해준다.
+        int year = date.getYear() + 1900;
+        int mon = date.getMonth() + 1;
+        textYear.setText(year + "");
+        textMon.setText(mon + "");
+        fillDate(year, mon);
+        Button btnmove = (Button) this.findViewById(R.id.gotodate);
+        Button next = (Button) this.findViewById(R.id.next);
+        Button priv = (Button) this.findViewById(R.id.priv);
+
+        this.year = Integer.parseInt(textYear.getText().toString());
+        this.mon = Integer.parseInt(textMon.getText().toString());
+
+        btnmove.setOnClickListener(this);
+        next.setOnClickListener(this);
+        priv.setOnClickListener(this);
 
     }
 
@@ -92,46 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return super.onOptionsItemSelected(item);
         }
     }
-
-
-
-    public void onResume(){
-        super.onResume();
-        setContentView(R.layout.activity_main);
-
-        textYear = (TextView) this.findViewById(R.id.yearedit);
-        textMon = (TextView) this.findViewById(R.id.monthedit);
-        mItems = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mItems);
-
-        GridView gird = (GridView) this.findViewById(R.id.grid1);
-        gird.setAdapter(adapter);
-        gird.setOnItemClickListener(this);
-
-        Date date = new Date();// 오늘에 날짜를 세팅 해준다.
-        int year = date.getYear() + 1900;
-        int mon = date.getMonth() + 1;
-        textYear.setText(year + "");
-        textMon.setText(mon + "");
-        fillDate(year, mon);
-        Button btnmove = (Button) this.findViewById(R.id.gotodate);
-        Button next = (Button) this.findViewById(R.id.next);
-        Button priv = (Button) this.findViewById(R.id.priv);
-
-        this.year = Integer.parseInt(textYear.getText().toString());
-        this.mon = Integer.parseInt(textMon.getText().toString());
-
-        btnmove.setOnClickListener(this);
-        next.setOnClickListener(this);
-        priv.setOnClickListener(this);
-
-
-    }
-
-
-
-
 
 
     @Override

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -24,26 +25,22 @@ public class Detail extends AppCompatActivity implements OnClickListener {
     String today;
     EditText editDate, editTitle, editTime, editMemo;
 
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab.setTitle("일정 추가하기");
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-
-
-
         SimpleDateFormat df = new SimpleDateFormat("HH:mm", Locale.KOREA);
         String str_date = df.format(new Date());
 
-
-
-
         EditText editText1 = (EditText) findViewById(R.id.edittime) ;
         editText1.setText(str_date) ;
-
-
 
         editDate = (EditText) findViewById(R.id.editdate);
         editTitle = (EditText) findViewById(R.id.edittitle);
