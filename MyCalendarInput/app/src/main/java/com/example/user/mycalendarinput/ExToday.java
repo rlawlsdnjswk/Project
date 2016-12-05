@@ -27,10 +27,8 @@ import android.widget.TextView;
         /** Called when the activity is first created. */
         @Override
         public void onCreate(Bundle savedInstanceState) {
-
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_ex_today);
-
 
             Intent intent = getIntent();
             today = intent.getStringExtra("Param1");

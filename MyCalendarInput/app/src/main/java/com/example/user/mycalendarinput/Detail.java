@@ -9,13 +9,13 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -25,22 +25,46 @@ public class Detail extends AppCompatActivity implements OnClickListener {
     String today;
     EditText editDate, editTitle, editTime, editMemo;
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
-        ab.setTitle("일정 추가하기");
-        return super.onCreateOptionsMenu(menu);
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        SimpleDateFormat df = new SimpleDateFormat("HH:mm", Locale.KOREA);
-        String str_date = df.format(new Date());
+
+
+//현재 시간을 디폴트로 잡아줌
+
+
+        String today = null;
+        String today1 = null;
+        String moon = "　~　";
+
+        Date date2 = new Date();
+
+        SimpleDateFormat sdformat = new SimpleDateFormat("HH:mm");
+
+        Calendar cal = Calendar.getInstance();
+
+       today =  sdformat.format(cal.getTime());
+
+
+        cal.add(Calendar.HOUR, +1);
+
+        today1  = sdformat.format(cal.getTime());
+
+
+
+        String str_date =today +moon +   today1;
+
+
+
 
         EditText editText1 = (EditText) findViewById(R.id.edittime) ;
         editText1.setText(str_date) ;
+
+
 
         editDate = (EditText) findViewById(R.id.editdate);
         editTitle = (EditText) findViewById(R.id.edittitle);

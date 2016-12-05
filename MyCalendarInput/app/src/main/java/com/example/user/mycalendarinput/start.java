@@ -5,18 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 public class start extends AppCompatActivity {
-    public boolean onCreateOptionsMenu(Menu menu) {
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
-        ab.setTitle("Welcome!");
-        return super.onCreateOptionsMenu(menu);
-    }
-
     final String TAG = "AnimationTest";
     ImageView logo;
     int mScreenHeight;
