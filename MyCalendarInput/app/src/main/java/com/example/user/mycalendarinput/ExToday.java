@@ -43,9 +43,9 @@ import android.widget.TextView;
                     "SELECT * FROM today WHERE date = '" + today + "'", null);
 
             adapter = new SimpleCursorAdapter(this,
-                    android.R.layout.simple_list_item_2, cursor, new String[] {
-                    "title", "time" }, new int[] { android.R.id.text1,
-                    android.R.id.text2 });
+                    R.layout.item, cursor, new String[] {
+                    "title", "time", "memo"}, new int[] { R.id.tv1, R.id.tv2, R.id.tv3
+            });
 
             ListView list = (ListView) findViewById(R.id.list1);
             list.setAdapter(adapter);
@@ -59,8 +59,7 @@ import android.widget.TextView;
         }
 
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position,
-                                long id) {
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             // TODO Auto-generated method stub
             Intent intent = new Intent(this, Detail.class);
             cursor.moveToPosition(position);
@@ -85,10 +84,9 @@ import android.widget.TextView;
                 case 0:
                 case 1:
                     if (resultCode == RESULT_OK) {
-                        // adapter.notifyDataSetChanged();
+                        adapter.notifyDataSetChanged();
                         SQLiteDatabase db = mDBHelper.getWritableDatabase();
-                        cursor = db.rawQuery("SELECT * FROM today WHERE date = '"
-                                + today + "'", null);
+                        cursor = db.rawQuery("SELECT * FROM today WHERE date = '" + today + "'", null);
                         adapter.changeCursor(cursor);
                         mDBHelper.close();
                     }

@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,9 +24,14 @@ public class Detail extends AppCompatActivity implements OnClickListener {
     MyDBHelper mDBHelper;
     int mId;
     String today;
-    EditText editDate, editTitle, editTime, editMemo;
+    EditText editDate, editTitle, editTime, editMemo, editPlace;
 
-
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //액션바를 강제로 캘린더로 네이밍함, 아마 월,주별 보기 프레이먼트에서도 각각 지정해줘야할 듯
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab.setTitle("일정 추가/수정");
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,37 +46,22 @@ public class Detail extends AppCompatActivity implements OnClickListener {
         String today = null;
         String today1 = null;
         String moon = "　~　";
-
         Date date2 = new Date();
-
         SimpleDateFormat sdformat = new SimpleDateFormat("HH:mm");
-
         Calendar cal = Calendar.getInstance();
-
-       today =  sdformat.format(cal.getTime());
-
-
+        today =  sdformat.format(cal.getTime());
         cal.add(Calendar.HOUR, +1);
-
         today1  = sdformat.format(cal.getTime());
-
-
-
         String str_date =today +moon +   today1;
-
-
-
 
         EditText editText1 = (EditText) findViewById(R.id.edittime) ;
         editText1.setText(str_date) ;
-
-
 
         editDate = (EditText) findViewById(R.id.editdate);
         editTitle = (EditText) findViewById(R.id.edittitle);
         editTime = (EditText) findViewById(R.id.edittime);
         editMemo = (EditText) findViewById(R.id.editmemo);
-
+        editPlace = (EditText) findViewById(R.id.editplace);
         Intent intent = getIntent();
         mId = intent.getIntExtra("ParamID", -1);
         today = intent.getStringExtra("ParamDate");
@@ -81,8 +72,7 @@ public class Detail extends AppCompatActivity implements OnClickListener {
             editDate.setText(today);
         } else {
             SQLiteDatabase db = mDBHelper.getWritableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM today WHERE _id='" + mId
-                    + "'", null);
+            Cursor cursor = db.rawQuery("SELECT * FROM today WHERE _id='" + mId + "'", null);
 
             if (cursor.moveToNext()) {
                 editTitle.setText(cursor.getString(1));
@@ -115,7 +105,7 @@ public class Detail extends AppCompatActivity implements OnClickListener {
                     db.execSQL("UPDATE today SET title='"
                             + editTitle.getText().toString() + "',date='"
                             + editDate.getText().toString() + "', time='"
-                            + editTime.getText().toString() + "', memo='"
+                            + editPlace.getText().toString() + "', memo='"
                             + editMemo.getText().toString() + "' WHERE _id='" + mId
                             + "';");
                 } else {

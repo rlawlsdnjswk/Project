@@ -1,5 +1,6 @@
 package com.example.user.mycalendarinput;
 
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -25,7 +26,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import android.database.sqlite.SQLiteDatabase;
 
+import static com.example.user.mycalendarinput.R.id.grid1;
 import static com.example.user.mycalendarinput.R.id.time;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,  AdapterView.OnItemClickListener {
@@ -35,68 +38,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView textMon;
     int year;
     int mon;
-
-
-
-
-
+    MyDBHelper mDBHelper;
+    String today;
+    Cursor cursor;
 
         /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-
-        do {
-            Intent intent = new Intent(getApplicationContext(), start.class);
-            startActivity(intent);
-        }
-        while(false);
-
-
-
-    }
-
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //액션바를 강제로 캘린더로 네이밍함, 아마 월,주별 보기 프레이먼트에서도 각각 지정해줘야할 듯
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
-        ab.setTitle("캘린더");
-
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    //액션바 메뉴 구현 부분
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case R.id.action_monthview:
-        //        startActivity(new Intent(this, SubActivity.class));
-                return true;
-            case R.id.action_weekview:
-        //        startActivity(new Intent(this, NavDrawerActivity.class));
-                 return true;
-
-            case R.id.action_dayview:
-                //        startActivity(new Intent(this, NavDrawerActivity.class));
-                return true;
-            case R.id.action_add:
-                //        startActivity(new Intent(this, NavDrawerActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-
-
-    public void onResume(){
-        super.onResume();
         setContentView(R.layout.activity_main);
 
         textYear = (TextView) this.findViewById(R.id.yearedit);
@@ -126,12 +75,43 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         next.setOnClickListener(this);
         priv.setOnClickListener(this);
 
-
+        Intent intent = new Intent(getApplicationContext(), start.class);
+        startActivity(intent);
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        //액션바를 강제로 캘린더로 네이밍함, 아마 월,주별 보기 프레이먼트에서도 각각 지정해줘야할 듯
+        android.support.v7.app.ActionBar ab = getSupportActionBar();
+        ab.setTitle("캘린더");
 
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    //액션바 메뉴 구현 부분
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.action_monthview:
+        //        startActivity(new Intent(this, SubActivity.class));
+                return true;
+            case R.id.action_weekview:
+        //        startActivity(new Intent(this, NavDrawerActivity.class));
+                 return true;
+
+            case R.id.action_dayview:
+                //        startActivity(new Intent(this, NavDrawerActivity.class));
+                return true;
+            case R.id.action_add:
+                //        startActivity(new Intent(this, NavDrawerActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 
     @Override
@@ -166,6 +146,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void fillDate(int year, int mon) {
+        mDBHelper = new MyDBHelper(this, "Today.db", null, 1);
+        SQLiteDatabase db = mDBHelper.getReadableDatabase();
+
         mItems.clear();
         mItems.add("일");
         mItems.add("월");
@@ -182,7 +165,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         current.setDate(32);// 32일까지 입력하면 1일로 바꿔준다.
         int last = 32 - current.getDate();
         for (int i = 1; i <= last; i++) {
-            mItems.add(i + "");
+            today = this.year+"/"+this.mon+"/"+i;
+
+            if(db.rawQuery("SELECT * FROM today WHERE date = '" + today + "'", null) != null ){
+                mItems.add(i + "");
+
+            }
+            else{
+                mItems.add(i + "");
+            }
         }
         adapter.notifyDataSetChanged();
     }
@@ -191,11 +182,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 // TODO Auto-generated method stub
         if (mItems.get(arg2).equals("")) {
-            ;
+
         } else {
             Intent intent = new Intent(this, ExToday.class);//해당 일을 눌렸을때
-            intent.putExtra("Param1", textYear.getText().toString() + "/"
-                    + textMon.getText().toString() + "/" + mItems.get(arg2));
+            intent.putExtra("Param1", textYear.getText().toString() + "/" + textMon.getText().toString() + "/" + mItems.get(arg2));
             startActivity(intent);
         }
     }
