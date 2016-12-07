@@ -1,6 +1,8 @@
 package com.example.user.mycalendarinput;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -20,12 +22,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
+import android.widget.Toast;
 import android.database.sqlite.SQLiteDatabase;
 
 import static com.example.user.mycalendarinput.R.id.grid1;
@@ -39,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     int year;
     int mon;
     MyDBHelper mDBHelper;
-    String today;
-
+    String today,menutoday;
+    int day;
         /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,16 +54,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         textYear = (TextView) this.findViewById(R.id.yearedit);
         textMon = (TextView) this.findViewById(R.id.monthedit);
         mItems = new ArrayList<String>();
-        adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, mItems);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mItems);
 
         GridView gird = (GridView) this.findViewById(R.id.grid1);
         gird.setAdapter(adapter);
         gird.setOnItemClickListener(this);
 
-        Date date = new Date();// 오늘에 날짜를 세팅 해준다.
+        Date date = new Date();// 오늘의 날짜를 세팅 해준다.
         int year = date.getYear() + 1900;
         int mon = date.getMonth() + 1;
+        day = date.getDate();
+        menutoday=year+"/"+mon+"/"+day;
+
+
         textYear.setText(year + "");
         textMon.setText(mon + "");
         fillDate(year, mon);
@@ -91,24 +98,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     //액션바 메뉴 구현 부분
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
 
-            case R.id.action_monthview:
-        //        startActivity(new Intent(this, SubActivity.class));
-                return true;
-            case R.id.action_weekview:
-        //        startActivity(new Intent(this, NavDrawerActivity.class));
-                 return true;
+        if(item.getItemId()==R.id.action_monthview){
 
-            case R.id.action_dayview:
-                //        startActivity(new Intent(this, NavDrawerActivity.class));
-                return true;
-            case R.id.action_add:
-                //        startActivity(new Intent(this, NavDrawerActivity.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
+        else if(item.getItemId()==R.id.action_weekview){
+
+        }
+        else if(item.getItemId()==R.id.action_dayview){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("일정 추가하기");
+            alert.setMessage("어느 날짜의 일정을 볼까요?");
+            final EditText editAlertDate = new EditText(this);
+            alert.setView(editAlertDate);
+            editAlertDate.setText(menutoday);
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String value = editAlertDate.getText().toString();
+                    Intent intentG = new Intent(getApplicationContext(), ExToday.class);
+                    intentG.putExtra("Param1", value);
+                    startActivityForResult(intentG, 1);
+                    dialog.dismiss();
+                }
+            });
+            alert.setNegativeButton("취소",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    });
+            alert.show();
+        }
+        else if(item.getItemId()==R.id.action_add){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("일정 추가하기");
+            alert.setMessage("어느 날짜에 추가할까요?");
+            final EditText editAlertDate = new EditText(this);
+            alert.setView(editAlertDate);
+            editAlertDate.setText(menutoday);
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    String value = editAlertDate.getText().toString();
+                    Intent intentD = new Intent(getApplicationContext(), Detail.class);
+                    intentD.putExtra("ParamDate", value);
+                    startActivityForResult(intentD, 1);
+                    dialog.dismiss();
+                }
+            });
+            alert.setNegativeButton("취소",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            dialog.dismiss();
+                        }
+                    });
+            alert.show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -118,7 +163,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (arg0.getId() == R.id.gotodate) {
             year = Integer.parseInt(textYear.getText().toString());
             mon = Integer.parseInt(textMon.getText().toString());
-            fillDate(year, mon);
+            if(year<=0||year>9999||mon<=0||mon>=13){
+                Toast.makeText(this, "이동 가능 범위를 초과하였습니다",Toast.LENGTH_SHORT).show();
+            }
+            else fillDate(year, mon);
         }
         else if(arg0.getId() == R.id.priv){
             mon -= 1;

@@ -17,7 +17,8 @@
         </activity>
         <activity android:name=".Detail" />
         <activity android:name=".ExToday" />
-        <activity android:name=".start"></activity>
+        <activity android:name=".start" />
+        <activity android:name=".DetailShow"></activity>
     </application>
 
 </manifest>

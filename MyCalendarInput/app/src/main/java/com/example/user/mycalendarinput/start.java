@@ -1,7 +1,7 @@
 package com.example.user.mycalendarinput;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -10,15 +10,11 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-public class start extends AppCompatActivity {
+public class start extends Activity{
     final String TAG = "AnimationTest";
     ImageView logo;
     int mScreenHeight;
-    public boolean onCreateOptionsMenu(Menu menu) {
-        android.support.v7.app.ActionBar ab = getSupportActionBar();
-        ab.setTitle("Welcome!");
-        return super.onCreateOptionsMenu(menu);
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent=getIntent();

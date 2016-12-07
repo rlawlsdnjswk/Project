@@ -10,12 +10,6 @@
         android:layout_weight="0"
         android:orientation="horizontal" >
 
-        <TextView
-            android:id="@+id/texttoday"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="일정 관리" />
     </LinearLayout>
 
     <LinearLayout
@@ -28,7 +22,7 @@
             android:id="@+id/list1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
-            />
+        />
     </LinearLayout>
 
     <LinearLayout

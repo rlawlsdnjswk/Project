@@ -100,58 +100,58 @@ public class Detail extends AppCompatActivity implements OnClickListener {
     public void onClick(View v) {
         // TODO Auto-generated method stub
         final SQLiteDatabase db = mDBHelper.getWritableDatabase();
-            if (v.getId() == R.id.btnsave) {
-                if (mId != -1) {
-                    db.execSQL("UPDATE today SET title='"
-                            + editTitle.getText().toString() + "',date='"
-                            + editDate.getText().toString() + "', time='"
-                            + editTime.getText().toString() + "', place='"
-                            + editPlace.getText().toString() + "', memo='"
-                            + editMemo.getText().toString() + "' WHERE _id='" + mId
-                            + "';");
-                } else {
-                    db.execSQL("INSERT INTO today VALUES(null, '"
-                            + editTitle.getText().toString() + "', '"
-                            + editDate.getText().toString() + "' , '"
-                            + editTime.getText().toString() + "', '"
-                            + editPlace.getText().toString() + "', '"
-                            + editMemo.getText().toString() + "');");
-                }
-                mDBHelper.close();
-                setResult(RESULT_OK);
-                finish();
+        if (v.getId() == R.id.btnsave) {
+            if (mId != -1) {
+                db.execSQL("UPDATE today SET title='"
+                        + editTitle.getText().toString() + "',date='"
+                        + editDate.getText().toString() + "', time='"
+                        + editTime.getText().toString() + "', place='"
+                        + editPlace.getText().toString() + "', memo='"
+                        + editMemo.getText().toString() + "' WHERE _id='" + mId
+                        + "';");
+            } else {
+                db.execSQL("INSERT INTO today VALUES(null, '"
+                        + editTitle.getText().toString() + "', '"
+                        + editDate.getText().toString() + "' , '"
+                        + editTime.getText().toString() + "', '"
+                        + editPlace.getText().toString() + "', '"
+                        + editMemo.getText().toString() + "');");
             }
+            mDBHelper.close();
+            setResult(RESULT_OK);
+            finish();
+        }
 
-            else if(v.getId()== R.id.btndel){
-                final AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle("알림!");
-                alert.setMessage("정말 삭제 하시겠습니까?");
+        else if(v.getId()== R.id.btndel){
+            final AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("알림!");
+            alert.setMessage("정말 삭제 하시겠습니까?");
 
-                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (mId != -1) {
-                            db.execSQL("DELETE FROM today WHERE _id='" + mId + "';");
-                            mDBHelper.close();
-                        }
-                        setResult(RESULT_OK);
-                        dialog.dismiss();
-                        finish();
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (mId != -1) {
+                        db.execSQL("DELETE FROM today WHERE _id='" + mId + "';");
+                        mDBHelper.close();
                     }
-                });
-                alert.setIcon(R.mipmap.ic_launcher);
-                alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                alert.show();
+                    setResult(RESULT_OK);
+                    dialog.dismiss();
+                    finish();
                 }
+            });
+            alert.setIcon(R.mipmap.ic_launcher);
+            alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alert.show();
+        }
 
         else if(v.getId()==R.id.btncancel) {
             setResult(RESULT_CANCELED);
-                finish();
+            finish();
         }
     }
 }
