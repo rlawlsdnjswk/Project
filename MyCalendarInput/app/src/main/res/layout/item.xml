@@ -14,11 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tv2"
-        android:textSize="18dp"/>
+        android:textSize="18dp"
+        android:textColor="@color/gray"/>
     <TextView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/tv3"/>
-
+    android:id="@+id/tv3"
+    android:textSize="18dp"
+        android:textColor="@color/gray"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv4"/>
 
 </LinearLayout>

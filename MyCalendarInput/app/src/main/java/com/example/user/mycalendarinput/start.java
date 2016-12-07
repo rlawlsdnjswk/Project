@@ -15,7 +15,6 @@ public class start extends AppCompatActivity {
     ImageView logo;
     int mScreenHeight;
     public boolean onCreateOptionsMenu(Menu menu) {
-        //액션바를 강제로 캘린더로 네이밍함, 아마 월,주별 보기 프레이먼트에서도 각각 지정해줘야할 듯
         android.support.v7.app.ActionBar ab = getSupportActionBar();
         ab.setTitle("Welcome!");
         return super.onCreateOptionsMenu(menu);

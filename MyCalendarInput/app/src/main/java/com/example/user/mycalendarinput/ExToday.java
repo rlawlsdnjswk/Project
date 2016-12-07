@@ -44,7 +44,7 @@ import android.widget.TextView;
 
             adapter = new SimpleCursorAdapter(this,
                     R.layout.item, cursor, new String[] {
-                    "title", "time", "memo"}, new int[] { R.id.tv1, R.id.tv2, R.id.tv3
+                    "title", "time", "place", "memo"}, new int[] { R.id.tv1, R.id.tv2, R.id.tv3, R.id.tv4
             });
 
             ListView list = (ListView) findViewById(R.id.list1);
